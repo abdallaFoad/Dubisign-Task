@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { arrayMoveImmutable } from "array-move";
+import SortableList from "./components/SortableList";
 
 function App() {
+  const data = [
+    {
+      id: 1,
+      order: 5,
+    },
+    {
+      id: 2,
+      order: 3,
+    },
+    {
+      id: 3,
+      order: 2,
+    },
+    {
+      id: 4,
+      order: 1,
+    },
+    {
+      id: 5,
+      order: 4,
+    },
+  ];
+
+  const [items, setItems] = useState(data);
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setItems((prevItem) => arrayMoveImmutable(prevItem, oldIndex, newIndex));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h3>Drag and Drop sortable list</h3>
+      <SortableList items={items} onSortEnd={onSortEnd} />
     </div>
   );
 }
